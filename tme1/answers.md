@@ -2,6 +2,8 @@
 
 Complexité de "repeat" la version fournie qui utilise String ?
 
+Repeat est en Theta(n), on parcours toute la String dans tout le cas. 
+
 # Question 2
 
 Temps version initiale (String) :

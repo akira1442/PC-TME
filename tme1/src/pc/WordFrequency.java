@@ -13,13 +13,22 @@ public class WordFrequency {
 	
 	private static class WordCount {
 		// TODO : essentiellement un mot et un compteur
+		private String mot;
+		private int cpt;
+		
+		public WordCount(String mot, int cpt) {
+			
+			this.mot = mot;
+			this.cpt = cpt;
+		}
+		
 	}
 
     public static void main(String[] args) throws IOException {
         // Allow filename as optional first argument, default to WarAndPeace.txt
         // Optional second argument is mode (e.g., "list" or "listfreq").
         String filename = args.length > 0 ? args[0] : "data/WarAndPeace.txt";
-        String mode = args.length > 1 ? args[1] : "count";
+        String mode = args.length > 1 ? args[1] : "list"; /*"count";*/
 
         // Check if file is readable
         File file = new File(filename);
@@ -55,7 +64,9 @@ public class WordFrequency {
                 if (!word.isEmpty()) {
                     totalWords++;
                     // TODO : tester si le mot "word" déjà dans "words"
-                    
+                    if (!words.contains(word)) {
+                    	words.add(word);
+                    }
                 }
             }
         	System.out.println("Total words: " + totalWords);
@@ -70,6 +81,22 @@ public class WordFrequency {
                     // TODO : trouver si le mot est déjà dans "words"
                     // si oui incrémenter son compteur
                     // sinon l'ajouter à la liste
+                    
+                    int indice = 0;
+                    boolean contains = false;
+                    
+                    for (WordCount wc : words) {
+                    	if (wc.mot.equals(word)) {
+                    		words.get(indice).cpt++;
+                    		contains = true;
+                    		break;
+                    	}
+                    	indice++;
+                    }
+                    if (!contains) {
+                    	WordCount wc = new WordCount(word, 1);
+                    	words.add(wc);
+                    }
                 }
             }
         	System.out.println("Total words: " + totalWords);

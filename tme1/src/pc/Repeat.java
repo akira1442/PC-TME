@@ -12,12 +12,24 @@ public class Repeat {
 
 	// Using "new StringBuilder()"
 	public static String repeatDefault(char c, int n) {
-		return null;
+		
+		StringBuilder s = new StringBuilder();
+		
+		for (int i = 0; i < n; i++) {
+			s.append(c);
+		}
+		return s.toString();
 	}
 	
 	// Using "new StringBuilder(n)"
 	public static String repeatCapacity(char c, int n) {
-		return null;
+		
+		StringBuilder s = new StringBuilder(n);
+		
+		for (int i = 0; i < n; i++) {
+			s.append(c);
+		}
+		return s.toString();
 	}
 	
 	public static void main(String [] args) {

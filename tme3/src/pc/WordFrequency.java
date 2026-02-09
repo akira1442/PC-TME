@@ -2,8 +2,8 @@ package pc;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,52 +11,9 @@ import java.util.Scanner;
 
 public class WordFrequency {
 
-  private static class CounterWorker implements Runnable {
-	  
-	  private File fichier;
-	  private Integer debut, fin;
-	  private Map<String, Integer> map;
-	  private Integer totalwords;
-	  
-	  public CounterWorker (File fichier, Integer debut, Integer fin) {
-		
-		  this.fichier = fichier;
-		  this.debut = debut;
-		  this.fin = fin;
-		  this.map = new HashMap<>();
-	  }
-     
-    /* TODO : ajouter les attributs */
-    /* TODO : Constructeur */
-    
-    /* TODO : run() */
-
-	@Override
-	public void run() {
-		this.totalwords = 0;
-		
-		
-	}
-    /* TODO : getters pour les résultats */
-	public Map<String, Integer> getMap(){
-		return this.map;
-	}
-	
-	public Integer getTotal() {
-		return totalwords;
-	}
-  }
-
-  /* TODO : merge two maps
-   */
-  public static Map<String, Integer> mergeInto(Map<String, Integer> a, Map<String, Integer> b) {
-    // TODO
-    return null;
-  }
-
   public static void main(String[] args) throws IOException {
     String filename = args.length > 0 ? args[0] : "data/WarAndPeace.txt";
-    String mode = args.length > 1 ? args[1] : "hash2";
+    String mode = args.length > 1 ? args[1] : "hash";
     int numThreads = args.length > 2 ? Integer.parseInt(args[2]) : 4;
 
     File file = new File(filename);
@@ -85,40 +42,6 @@ public class WordFrequency {
         }
       }
       printResults(totalWords, map);
-    } else if (mode.equals("hash2")) {
-        long totalWords = 0;
-        Map<String, Integer> map = new HashMap<>();
-        try (Scanner scanner = new Scanner(file)) {
-          while (scanner.hasNext()) {
-            String word = cleanWord(scanner.next());
-            Integer tmp = map.get(word);
-            if (!word.isEmpty()) {
-            	if (tmp == null) {
-            		tmp = 0;
-            	}
-              totalWords++;
-              map.put(word, tmp+1);
-            }
-          }
-        }
-        printResults(totalWords, map);
-      // TODO : base hash, mais on get/put au lieu de compute
-    	
-    } else if (mode.equals("range")) {
-      // Sequential full-file processing with hash map + use of getRange
-      long totalWords = 0;
-      Map<String, Integer> map = new HashMap<>();
-      try (Scanner scanner = new Scanner(FileUtils.getRange(file, 0, fileSize))) {
-        while (scanner.hasNext()) {
-          String word = cleanWord(scanner.next());
-          if (!word.isEmpty()) {
-            totalWords++;
-            map.compute(word, (w, c) -> c == null ? 1 : c + 1);
-          }
-        }
-      }
-      printResults(totalWords, map);
-
     } else if (mode.equals("partition")) {
       // Single-threaded, loop over ranges with single map
       long[] parts = FileUtils.partition(file, numThreads);
@@ -126,27 +49,17 @@ public class WordFrequency {
       Map<String, Integer> map = new HashMap<>();
 
       for (int i = 0; i < numThreads; i++) {
-        // TODO work on : (parts[i], parts[i + 1]
+        try (Scanner scanner = new Scanner(FileUtils.getRange(file, parts[i], parts[i + 1]))) {
+          while (scanner.hasNext()) {
+            String word = cleanWord(scanner.next());
+            if (!word.isEmpty()) {
+              totalWords++;
+              map.compute(word, (w, c) -> c == null ? 1 : c + 1);
+            }
+          }
+        }
       }
       printResults(totalWords, map);
-
-    } else if (mode.equals("shard")) {
-      // Multi-threaded, per-thread local maps, merge after
-      // Based on partition + using CounterWorker
-    	long[] parts = FileUtils.partition(file, numThreads);
-    	long totalWords = 0;
-    	Map<String, Integer> map = new HashMap<>();
-      
-      // create one thread per partition element
-        for (int i = 0; i < numThreads; i++) {
-            // TODO work on : (parts[i], parts[i + 1]
-        	CounterWorker 
-          }
-      // join all threads
-      
-      // collect and merge results
-      
-      // printResults
     } else {
       System.err.println("Unknown mode: " + mode);
       System.exit(1);

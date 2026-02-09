@@ -1,6 +1,24 @@
 Complétez avec vos réponses.
 
 # Q1
+Preparing to parse data/WarAndPeace.txt (mode=hash, N=4), containing 3235342 bytes
+Total words: 565527
+Unique words: 20332
+34562 the
+22148 and
+16709 to
+14990 of
+10513 a
+Total runtime: 329 ms for mode hash
 
+Preparing to parse data/WarAndPeace.txt (mode=hash2, N=4), containing 3235342 bytes
+Total words: 565527
+Unique words: 20332
+34562 the
+22148 and
+16709 to
+14990 of
+10513 a
+Total runtime: 255 ms for mode hash2
 ...
 

@@ -60,7 +60,10 @@ public class WordFrequency {
         }
       }
       printResults(totalWords, map);
-    } else {
+    } else if (mode.equals("naive")) {
+    	Map<String, Integer> map = new HashMap<>();
+    	NaiveWorker nw = new NaiveWorker(file, );
+    }else {
       System.err.println("Unknown mode: " + mode);
       System.exit(1);
     }
@@ -88,7 +91,7 @@ public class WordFrequency {
     }
   }
 
-  private static String cleanWord(String word) {
+  static String cleanWord(String word) {
     return word.replaceAll("[^a-zA-Z]", "").toLowerCase();
   }
 }

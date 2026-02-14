@@ -3,6 +3,7 @@ package pc;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,15 +12,31 @@ import java.util.TreeMap;
 
 public class WordFrequency {
 	
-	private static class WordCount {
+	private static class WordCount implements Comparable<WordCount>{
 		// TODO : essentiellement un mot et un compteur
-		private String mot;
-		private int cpt;
+		String mot;
+		int cpt;
 		
 		public WordCount(String mot, int cpt) {
 			
 			this.mot = mot;
 			this.cpt = cpt;
+		}
+
+		@Override
+		public int compareTo(WordCount wc) {
+			// TODO Auto-generated method stub
+			return - Integer.compare(this.cpt, wc.cpt);
+		}
+
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return this.cpt;
+		}
+
+		public String getWord() {
+			// TODO Auto-generated method stub
+			return this.mot;
 		}
 		
 	}
@@ -81,9 +98,8 @@ public class WordFrequency {
                     // TODO : trouver si le mot est déjà dans "words"
                     // si oui incrémenter son compteur
                     // sinon l'ajouter à la liste
-                    
-                    int indice = 0;
                     boolean contains = false;
+                    int indice = 0;
                     
                     for (WordCount wc : words) {
                     	if (wc.mot.equals(word)) {
@@ -94,19 +110,18 @@ public class WordFrequency {
                     	indice++;
                     }
                     if (!contains) {
-                    	WordCount wc = new WordCount(word, 1);
-                    	words.add(wc);
+                    	words.add(new WordCount(word, 1));
                     }
                 }
             }
         	System.out.println("Total words: " + totalWords);
         	System.out.println("Unique words: " + words.size());
             // TODO : trier la liste par fréquence décroissante puis ordre alphabétique croissant
-
+        	Collections.sort(words);
         	// puis afficher les 5 mots les plus fréquents avec leur fréquence
-//            for (WordCount wc : words.subList(0, 5)) {
-//				System.out.println(wc.getCount() + " " + wc.getWord());
-//			}
+           for (WordCount wc : words.subList(0, 5)) {
+				System.out.println(wc.getCount() + " " + wc.getWord());
+			}
         } else if (mode.equals("tree")) {
         	long totalWords = 0;
             Map<String, Integer> map = new TreeMap<>();
@@ -115,6 +130,12 @@ public class WordFrequency {
                 if (!word.isEmpty()) {
                     totalWords++;
                     // TODO : mettre à jour la map
+                    if (map.containsKey(word)) {
+                    	map.put(word, 1);
+                    }
+                    else {
+                    	map.put(word,1);
+                    }
                 }
             }
             System.out.println("Total words: " + totalWords);

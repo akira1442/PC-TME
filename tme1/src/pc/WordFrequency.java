@@ -154,6 +154,12 @@ public class WordFrequency {
                 if (!word.isEmpty()) {
                     totalWords++;
                     // TODO : mettre à jour la map
+                    if (map.containsKey(word)) {
+                    	map.put(word, 1);
+                    }
+                    else {
+                    	map.put(word,1);
+                    }
                 }
             }
             System.out.println("Total words: " + totalWords);

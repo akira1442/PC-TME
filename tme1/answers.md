@@ -42,6 +42,9 @@ Complexité de "repeat" avec StringBuilder(n) ?
 
 
 # Question 4
+Total words: 565527
+Unique words: 20332
+Total runtime (wall clock) : 481 ms for mode hash
 
 Copiez la trace du script python.
 

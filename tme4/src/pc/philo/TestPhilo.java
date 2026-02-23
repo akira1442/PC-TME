@@ -12,18 +12,18 @@ public class TestPhilo {
 			tChop[i] = new Fork();
 		}
 		
-		for (int i = 1; i < NB_PHIL; i++) {
-			tPhil[i] = new Thread(new Philosopher(tChop[i-1], tChop[i]));
+		for (int i = 0; i < NB_PHIL; i++) {
+			tPhil[i] = new Thread(new Philosopher(tChop[i%NB_PHIL], tChop[(i+1)%NB_PHIL]));
 		}
 		
 		for (Thread t : tPhil) {
-			t.run();
+			t.start();
 		}
-		for (int i = 0; i < NB_PHIL; i++) {
-			try {tPhil[i].join();
+		for (Thread t : tPhil) {
+			try {t.join();
 			
 			}catch (InterruptedException e) {
-				System.out.println(e.getMessage());
+				System.out.println(e.getMessage()+" coucou");
 			}
 		}
 		System.out.println("Fin du programme");

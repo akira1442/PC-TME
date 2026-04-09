@@ -21,7 +21,7 @@ public class LifeGame {
 				// Modes avec 1 updater pour 1 refresher
 				new NaiveMode(), // fourni, utilise sleep et aucune protection
 				new LambdaMode(), // fourni, naive mais en lambda
-// TODO				new MtSafeMode(), // a partir de Naive, protéger LifeModel des data race.
+				new MtSafeMode(), // a partir de Naive, protéger LifeModel des data race.
 // TODO				new AlternateMode(), // a partir de MtSafe, forcer une alternance avec wait/notify
 // TODO				new ExternalMode(), // a partir de Naive, forcer une alternance avec une classe de synchro
 				// Modes avec plusieurs updater pour 1 refresher

@@ -13,7 +13,7 @@ public final class NaiveMode implements LifeMode {
 	
 	@Override
 	public LifeModel createModel(int rows, int cols) {
-		return new LifeModel(rows, cols);
+		return new LifeModelSync(rows, cols);
 	}
 
 	@Override
